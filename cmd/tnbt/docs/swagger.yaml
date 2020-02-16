@@ -1,0 +1,173 @@
+basePath: /
+definitions:
+  user.CreateUserPayload:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  user.LoginPayload:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  user.UpdateUserPayload:
+    properties:
+      password:
+        type: string
+    required:
+    - password
+    type: object
+  user.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  user.UserInfoPayload:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - username
+    type: object
+info:
+  contact:
+    email: aseemshrey@gmail.com
+    name: API Support
+  description: Swagger API for TNBT
+  license:
+    name: MIT
+    url: https://github.com/github.com/LuD1161/restructuring-tnbt
+  termsOfService: http://swagger.io/terms/
+  title: TNBT Swagger API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login to get a JWToken
+      parameters:
+      - description: Login to get the JWToken
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/user.LoginPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWToken here
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - Login
+  /user/:
+    post:
+      consumes:
+      - application/json
+      description: Create a user
+      parameters:
+      - description: Create User
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateUserPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+      summary: Create a user
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Update a user
+      parameters:
+      - description: Can only update current user's password as of now
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserPayload'
+      - description: JWT header starting with the Bearer
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserInfoPayload'
+      summary: Update a user
+      tags:
+      - User
+  /user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get the user details by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: JWT header starting with the Bearer
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserInfoPayload'
+      summary: Get User by ID
+      tags:
+      - User
+swagger: "2.0"
